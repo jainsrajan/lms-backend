@@ -48,15 +48,14 @@ const userSchema = new Schema({
         default:'USER'
     },
 
-
-    subscription:{
-        type:'String',
-        id:'String',
-        status: 'inactive'
-    },
-
     forgotPasswordToken:String,
     forgotPasswordExpiry: Date,
+
+    subscription:{
+    
+        id:String,
+        status: String
+    },
 
 },
 
