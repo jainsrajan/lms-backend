@@ -15,7 +15,7 @@ try {
         messsage:'All courses',
         courses,
      })
-     console.log(courses)
+
     
 } catch (error) {
      return next(new AppError(error.messsage , 500))

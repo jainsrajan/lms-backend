@@ -14,9 +14,9 @@ const PORT = process.env.PORT || 6000;
 
 })
 
-export const razorpay = new Razorpay({
-    key_id:process.env.RAZORPAY_KEY_ID ,
-    key_secret:process.env.RAZORPAY_SECRET,
+export const instance = new Razorpay({
+    key_id:process.env.RAZORPAY_KEY_ID,
+    key_secret:process.env.RAZORPAY_SECRET
 })
 
 app.listen(PORT ,async()=>{

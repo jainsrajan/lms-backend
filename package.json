@@ -8,10 +8,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js",
     "build": "npm install"
-<<<<<<< HEAD
-
-=======
->>>>>>> 2cede28ced4e0d9372df4d317d07ee3282e6a588
   },
   "author": "",
   "license": "ISC",

@@ -214,7 +214,7 @@ try {
 
     await user.save()
     
-    return next(new AppError(e.message , 500))
+    return next(new AppError(error.message , 500))
 }}
 
 const resetPassword = async (req , res , next)=>{
