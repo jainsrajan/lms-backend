@@ -8,7 +8,8 @@ import crypto from 'crypto'
 const cookieOptions={
     maxAge:7*24*60*60*1000,
     httpOnly:true,
-    sameSite:"None"
+    sameSite:"None",
+    secure:true
 }
 
 const register = async(req, res , next)=>{
@@ -205,7 +206,7 @@ await user.save()
 
 //This URL has to be sent to the email of the user
 
-const resetPasswordUrl = `https://musical-biscuit-f07d19.netlify.app/reset-password/${resetToken}`
+const resetPasswordUrl = `https://rococo-cuchufli-dde5b6.netlify.app/reset-password/${resetToken}`
 console.log(resetPasswordUrl)
 
 const message = `${resetPasswordUrl}`
