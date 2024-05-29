@@ -11,8 +11,8 @@ router.get('/logout' , logout)
 // router.post('/register' , register)
 router.get('/me' , isloggedIn, getProfile)
 router.post('/reset' , forgotPassword)
-router.post('/reset/:resetToken' , resetPassword)
-router.post('/changepassowrd' ,isloggedIn, changepassword)
+router.post('/reset-password/:resetToken' , resetPassword)
+router.post('/changepassword' ,isloggedIn, changepassword)
 router.put('/update/:id' , isloggedIn , upload.single('avatar') , updateuser)
 
 

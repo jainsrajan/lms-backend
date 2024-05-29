@@ -4,6 +4,7 @@ import AppError from "../utils/error.utils.js";
 import cloudinary from 'cloudinary'
 import fs from 'fs/promises'
 import asyncHandler from 'express-async-handler'
+import { response } from "express";
 
 const getAllcourses  =  async function(req , res ){
  const courses = await Course.find({}).select('-lectures');
@@ -144,8 +145,10 @@ res.status(200).json({
 }
 
 
-const removeLecturesfromCourse = asyncHandler(async (req , res , next)=>{
+const removeLecturesfromCourse = async (req , res , next)=>{
     const {courseId , lectureId} = req.params
+
+    console.log("The course and lecture ids are" , req.params);
 
     if(!courseId)
     {
@@ -196,9 +199,7 @@ const removeLecturesfromCourse = asyncHandler(async (req , res , next)=>{
         success: true,
         message: 'Course lecture removed successfully',
       });
-
-
-})
+}
 
 const removeCourse = async function (req , res , next)
 {
@@ -282,6 +283,7 @@ const addLectureToCourseById = async function(req , res , next)
         
         
     } catch (e) {
+        return next(new AppError(e.message , 400))
         
     }
 

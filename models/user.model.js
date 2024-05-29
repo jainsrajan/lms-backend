@@ -2,6 +2,7 @@ import {Schema , model} from 'mongoose'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import crypto from 'crypto'
+// import { type } from 'os';
 
 const userSchema = new Schema({
 
@@ -40,6 +41,12 @@ const userSchema = new Schema({
         secure_url:{
             type:'String'
         }
+    },
+
+    country:{
+        type:'String', 
+        required:true
+
     },
 
     role:{
@@ -90,6 +97,8 @@ process.env.JWT_SECRET,
 
     comparePassword: async function(plainTextPassword)
     {
+        console.log("Passwords are as follows " ,plainTextPassword)
+        console.log("The bcrypted password is", this.password)
         return await bcrypt.compare(plainTextPassword , this.password)
 
     },

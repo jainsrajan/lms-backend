@@ -12,9 +12,9 @@ const cookieOptions={
 
 const register = async(req, res , next)=>{
 
-    const {fullName , email , password } = req.body;
+    const {fullName , email , password,country } = req.body;
 
-    if(!fullName || !email || !password)
+    if(!fullName || !email || !password || !country)
     {
         return next(new AppError('All fields are required' , 400))
     }
@@ -34,6 +34,7 @@ const register = async(req, res , next)=>{
             public_id:" ",
             secure_url:" "
         },
+        country
     
     })
 
@@ -111,8 +112,10 @@ const login = async (req , res , next)=>{
             email
         })
         .select('+password');
-    
-        if(!user || !user.comparePassword(password))
+
+    console.log("The user is",user)
+    console.log("The login compare password is" ,await user.comparePassword(password))
+        if(!user || !await user.comparePassword(password))
         {
             return next(new AppError('Email or password does not match' , 400))
         }
@@ -129,7 +132,7 @@ const login = async (req , res , next)=>{
         })
         
     } catch (error) {
-
+        
         return next(new AppError(error.message , 500));
         
     }
@@ -137,17 +140,24 @@ const login = async (req , res , next)=>{
 
 const logout=(req,res)=>{
 
-    res.cookie('token' , null,{
-        secure:true,
-        maxAge:0,
-        httpOnly:true
-    });
+    try {
 
-
-    res.status(200).json({
-        success:true,
-        message:'User logges out successfully'
-    })
+        res.cookie('token' , null,{
+            secure:true,
+            maxAge:0,
+            httpOnly:true
+        });
+    
+    
+        res.status(200).json({
+            success:true,
+            message:'User logges out successfully'
+        })
+        
+    } catch (error) {
+        return next(new AppError(error.message))
+    }
+   
 }
 
 const getProfile=  async (req,res , next)=>{
@@ -194,7 +204,7 @@ await user.save()
 
 //This URL has to be sent to the email of the user
 
-const resetPasswordUrl = `Srajan/reset-password/${resetToken}`
+const resetPasswordUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`
 console.log(resetPasswordUrl)
 
 const message = `${resetPasswordUrl}`
@@ -202,7 +212,7 @@ const subject = 'reset password'
 
 try {
     await sendEmail(email,subject,message)
-
+    
     res.status(200).json({
         success:true,
         message:`Reset password token had been sent to the email-${email} successfully`
@@ -217,35 +227,48 @@ try {
     return next(new AppError(error.message , 500))
 }}
 
+
 const resetPassword = async (req , res , next)=>{
-const{resetToken} = req.params;
 
-const{password} = req.body
+    try {
+        
+        const{resetToken} = req.params;
 
-const forgotPasswordToken = crypto
-.createHash('sha256')
-.update(resetToken)
-.digest('hex')
+        // console.log("The RESET-TOKEN  is ",resetToken)
+        
+        const {password} = req.body
+        
+        // console.log("The password is"  , password)
+        
+        const forgotPasswordToken = crypto
+        .createHash('sha256')
+        .update(resetToken)
+        .digest('hex')
+        
+        const user = await User.findOne({
+            forgotPasswordToken,
+            forgotPasswordExpiry:{$gt: Date.now()}
+        })
+        if(!user)
+        
+        {
+            return next(new AppError('Token is invalid of expire, Please try again' , 400))
+        }
+        
+        user.password =  password
+        user.forgotPasswordToken = undefined
+        user.forgotPasswordExpiry = undefined
+        await user.save()
+        
+        res.status(200).json({
+        success:true,
+        message:'Your passsword changes successfully'
+        })
+        
 
-const user = await User.findOne({
-    forgotPasswordToken,
-    forgotPasswordExpiry:{$gt: Date.now()}
-})
-if(!user)
-
-{
-    return next(new AppError('Token is invalid or expire, pleae try again' , 400))
-}
-
-user.password =  password
-user.forgotPasswordToken = undefined
-user.forgotPasswordExpiry = undefined
-await user.save()
-
-res.status(200).json({
-success:true,
-message:'Your passsword changes successfully'
-})
+    } catch (error) {
+        return next(new AppError(error?.message , 500))
+    }
 
 }
 
@@ -253,7 +276,7 @@ message:'Your passsword changes successfully'
 const changepassword = async(req , res ,  next)=>{
 
     const{oldpassword , newpassword} = req.body
-    const{id} = req.user.id
+    const{id} = req.user
 
     if(!oldpassword || !newpassword)
     {
@@ -268,6 +291,7 @@ const changepassword = async(req , res ,  next)=>{
     }
 
     const isPasswordValid = await user.comparePassword(oldpassword)
+    console.log("Is password valid",isPasswordValid)
 
     if(!isPasswordValid)
     {

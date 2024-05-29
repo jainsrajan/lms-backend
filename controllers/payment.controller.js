@@ -124,7 +124,10 @@ export const verifySubscription = async(req , res , next)=>{
 
 export const cancelSubscription = async(req , res , next)=>{
 
-    const{id} = req.user.id
+
+    try {
+
+        const id = req.user.id
 
     const user = await User.findById(id);
 
@@ -135,24 +138,35 @@ export const cancelSubscription = async(req , res , next)=>{
 
     if(user.role === "ADMIN")
     {
-        return next(new AppError("Admin cannot purchase cancel subscription") , 400)
+        return next(new AppError("Admin cannot cancel subscription") , 400)
     }
 
     const subscriptionId = user.subscription.id
 
-    const subscription = await razorpay.subscriptions.cancel(
+    const subscription = await instance.subscriptions.cancel(
         subscriptionId
     )
 
     user.subscription.status = subscription.status
 
     await user.save()
+
+    res.status(200).json({
+        success:true,
+        message:"Subscription cancelled Successfully"
+    })
+        
+    } catch (error) {
+
+         return next(new AppError(error.message))
+    }
+    
 }
 
 export const allPayments = async(req , res , next)=>{
 
     const {count} = req.query
-    const subscription = await razorpay.subsscriptions.all({
+    const subscription = await instance.subsscriptions.all({
         count: count || 10
     })
 
