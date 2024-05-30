@@ -4,7 +4,7 @@ import connectiontoDB from './config/dbConnection.js';
 import cloudinary from 'cloudinary';
 import Razorpay from 'razorpay'
 
-const PORT = process.env.PORT || 6000;
+const PORT = 5014;
 
  cloudinary.v2.config({
     
