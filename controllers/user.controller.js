@@ -7,8 +7,10 @@ import crypto from 'crypto'
 
 const cookieOptions={
     maxAge:7*24*60*60*1000,
-    httpOnly:true
-}
+    httpOnly:true,
+    sameSite: 'None',
+    secure:true
+    }
 
 const register = async(req, res , next)=>{
 
@@ -143,6 +145,7 @@ const logout=(req,res)=>{
     try {
 
         res.cookie('token' , null,{
+        
             secure:true,
             maxAge:0,
             httpOnly:true
@@ -201,6 +204,7 @@ return next(new AppError('Email not registered' , 400))
 const resetToken = await user.generatePassword();
 
 await user.save()
+
 
 //This URL has to be sent to the email of the user
 

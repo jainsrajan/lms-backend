@@ -20,6 +20,7 @@ app.use(express.urlencoded({extended:true}))
 
 app.use(cors({
     origin:[process.env.FRONTEND_URL],
+    // origin:'papaya-chimera-8559ec.netlify.app',
     credentials: true
 }))
 
