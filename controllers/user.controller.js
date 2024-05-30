@@ -206,7 +206,7 @@ await user.save()
 
 //This URL has to be sent to the email of the user
 
-const resetPasswordUrl = `https://rococo-cuchufli-dde5b6.netlify.app/reset-password/${resetToken}`
+const resetPasswordUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`
 console.log(resetPasswordUrl)
 
 const message = `${resetPasswordUrl}`
