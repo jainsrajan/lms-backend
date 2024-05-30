@@ -8,15 +8,11 @@ import crypto from 'crypto'
 const cookieOptions={
     maxAge:7*24*60*60*1000,
     httpOnly:true,
-<<<<<<< HEAD
     sameSite: 'None',
     secure:true
     }
-=======
-    sameSite:"None",
-    secure:true
-}
->>>>>>> 61425f6435d8a87f8581219c8a1629935cc47328
+
+
 
 const register = async(req, res , next)=>{
 
