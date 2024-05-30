@@ -19,7 +19,8 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
 app.use(cors({
-    origin:'bucolic-mooncake-057a17.netlify.app',
+    origin:'https://bucolic-mooncake-057a17.netlify.app',
+     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true
 }))
 
