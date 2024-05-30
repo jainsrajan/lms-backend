@@ -18,11 +18,11 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
-app.use(cors({
-    origin:'https://guileless-rugelach-47b412.netlify.app',
-    // origin:'papaya-chimera-8559ec.netlify.app',
-    credentials: true
-}))
+// app.use(cors({
+//     origin:'https://guileless-rugelach-47b412.netlify.app',
+
+//     credentials: true
+// }))
 
 // app.use((req, res, next) => {
 //     res.setHeader("Access-Control-Allow-Origin", "*" );
