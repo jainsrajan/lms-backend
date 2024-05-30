@@ -210,7 +210,7 @@ await user.save()
 
 //This URL has to be sent to the email of the user
 
-const resetPasswordUrl = `https://papaya-chimera-8559ec.netlify.app/reset-password/${resetToken}`
+const resetPasswordUrl = `https://bucolic-mooncake-057a17.netlify.app//reset-password/${resetToken}`
 console.log(resetPasswordUrl)
 
 const message = `${resetPasswordUrl}`
