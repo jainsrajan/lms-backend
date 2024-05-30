@@ -19,7 +19,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
 app.use(cors({
-    origin:'https://papaya-chimera-8559ec.netlify.app/',
+    origin:'https://papaya-chimera-8559ec.netlify.app',
     // origin:'papaya-chimera-8559ec.netlify.app',
     credentials: true
 }))
