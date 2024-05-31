@@ -19,9 +19,9 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
 app.use(cors({
-    origin:[process.env.FRONTEND_URL],
-    // origin:'papaya-chimera-8559ec.netlify.app',
-    credentials: true
+    origin:'https://bucolic-mooncake-057a17.netlify.app',
+     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials:true
 }))
 
 // app.use((req, res, next) => {
@@ -35,7 +35,7 @@ app.use(morgan('dev'))
 
 app.use(cookieParser())
 
-app.use('/ping' ,function(req,res){
+app.use('/' ,function(req,res){
     res.send('Pong');
 })
 
