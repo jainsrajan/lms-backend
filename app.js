@@ -35,7 +35,7 @@ app.use(morgan('dev'))
 
 app.use(cookieParser())
 
-app.use('/' ,function(req,res){
+app.use('/ping' ,function(req,res){
     res.send('Pong');
 })
 
