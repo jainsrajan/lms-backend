@@ -156,7 +156,7 @@ const logout=(req,res)=>{
     
         res.status(200).json({
             success:true,
-            message:'User logges out successfully'
+            message:'User logged out successfully'
         })
         
     } catch (error) {
