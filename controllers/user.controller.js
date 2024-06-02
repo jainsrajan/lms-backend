@@ -23,6 +23,12 @@ const register = async(req, res , next)=>{
         return next(new AppError('All fields are required' , 400))
     }
 
+    if(!password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm))
+        {
+            return next(new AppError('Re-Enter your password' , 400))
+        }
+    
+
     const userExists =  await User.findOne({email});
 
     if(userExists)
